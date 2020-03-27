@@ -1,0 +1,32 @@
+{
+  "name": "cloud-server",
+  "version": "1.0.0",
+  "description": "Store stuff on cloud",
+  "main": "lib/server.js",
+  "scripts": {
+    "start": "node .",
+    "start:watch": "nodemon -i sessions .",
+    "compile": "tsc",
+    "compile:watch": "tsc --watch"
+  },
+  "author": "Samuel Young + Tristan Durey",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/body-parser": "^1.19.0",
+    "@types/express": "^4.17.3",
+    "@types/express-handlebars": "^3.1.0",
+    "@types/express-session": "^1.17.0",
+    "@types/morgan": "^1.9.0",
+    "@types/node": "^13.9.1",
+    "nodemon": "^2.0.2",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "express-session": "^1.17.0",
+    "morgan": "^1.9.1",
+    "node": "^13.10.1"
+  }
+}

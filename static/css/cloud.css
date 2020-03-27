@@ -1,0 +1,37 @@
+:root {
+    --font-family: 'Inter', sans-serif;
+}
+
+html {
+    font-family: var(--font-family, sans-serif);
+}
+
+p {
+    line-height: 1.5;
+    max-width: 33em;
+}
+
+ul {
+    padding: 1rem;
+}
+
+li {
+    list-style-type: none;
+    padding: .5rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    padding: .3rem .5rem;
+    border-radius: .1rem;
+    border: none;
+    background-color: black;
+    color: white;
+}
+
+button:hover {
+    cursor: pointer;
+}
