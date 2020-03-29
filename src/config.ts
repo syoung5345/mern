@@ -9,3 +9,10 @@ export const sessionOptions = {
 };
 
 export const cloudDirectory = 5;
+
+export const db = {
+    username: undefined as string | undefined,
+    password: undefined as string | undefined,
+    hostname: 'localhost',
+    dbname: 'comp431'
+}
