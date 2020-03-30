@@ -42,7 +42,18 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-});
+}, {
+    toJSON: {
+      getters: false,
+      virtuals: false,
+      transform: (doc, obj, options) => {
+        obj.id = obj._id;
+        delete obj._id;
+        delete obj.__v;
+        return obj;
+      }
+    }
+  });
 
 export interface UserData {
     username: string,

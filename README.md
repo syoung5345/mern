@@ -1,3 +1,3 @@
-Project Name: Cloud Server
+Project Name: REST API
 
-Authors: Sam Young and Tristan Durey
+Author: Sam Young

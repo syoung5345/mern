@@ -28,7 +28,18 @@ const ClassSchema = new mongoose.Schema({
     students: {
         required: true
     }
-});
+}, {
+    toJSON: {
+      getters: false,
+      virtuals: false,
+      transform: (doc, obj, options) => {
+        obj.id = obj._id;
+        delete obj._id;
+        delete obj.__v;
+        return obj;
+      }
+    }
+  });
 
 export interface ClassData {
     subject: string,

@@ -3,8 +3,10 @@ import morgan from 'morgan';
 import expressSession from 'express-session';
 import bodyParser from 'body-parser';
 import expressHandlebars from 'express-handlebars';
+
 import * as config from '../config';
-import * as cloud from './cloud';
+import * as common from './common';
+import * as api from './api';
 
 // APPLICATION
 export const app = express();
@@ -25,12 +27,9 @@ app.use(bodyParser.urlencoded({
 );
    
 // MOUNT FEATURES
+app.use('/api', api.routes);
 app.use(express.static("./static"));
-app.use('/cloud', cloud.routes);
 
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    console.error(err);
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.status(404);
-    res.write(`The requested URL ${req.url} was not found on this server.`);
-});
+app.use(common.notFound);
+
+app.use(common.serverError);
