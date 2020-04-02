@@ -1,6 +1,5 @@
 import express from 'express';
 import morgan from 'morgan';
-import expressSession from 'express-session';
 import bodyParser from 'body-parser';
 import expressHandlebars from 'express-handlebars';
 
@@ -17,8 +16,6 @@ app.set('views', process.cwd() + '/templates');
 if (config.logFormat) {
     app.use(morgan(config.logFormat));
 }
-
-// app.use(expressSession({ ...config.sessionOptions, store: new FileStore() }));
 
 app.use(bodyParser.urlencoded({
     type: 'application/x-www-form-urlencoded',

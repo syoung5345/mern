@@ -50,6 +50,8 @@ const UserSchema = new mongoose.Schema({
         obj.id = obj._id;
         delete obj._id;
         delete obj.__v;
+        delete obj.salt;
+        delete obj.password;
         return obj;
       }
     }

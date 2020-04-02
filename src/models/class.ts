@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 import './db';
+import { User } from './user';
 
 const ClassSchema = new mongoose.Schema({
     subject: {
@@ -23,9 +24,19 @@ const ClassSchema = new mongoose.Schema({
         required: true
     },
     teacher: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        //how to make sure that user is teacher
+        // validate: {
+        //     validator: (id: mongoose.Schema.Types.ObjectId) => id == Math.floor(id),
+        //     message: '{VALUE} is not an integer'
+        // },
         required: true
     },
     students: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'User',
+        //how to make sure user is student
         required: true
     }
 }, {
@@ -45,10 +56,10 @@ export interface ClassData {
     subject: string,
     number: number,
     title: string,
-    teacher: IDBIndex,
-    students: IDBArrayKey
+    teacher: User,
+    students: User[]
 }
 
 export interface Class extends mongoose.Document, ClassData {}; 
 
-export const User = mongoose.model<Class>('User', ClassSchema);
+export const Class = mongoose.model<Class>('Class', ClassSchema);

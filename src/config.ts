@@ -16,3 +16,5 @@ export const db = {
     hostname: 'localhost',
     dbname: 'comp431'
 }
+
+export const jwtSecret = 'it\'s a secret to everybody';
