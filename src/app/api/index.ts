@@ -24,20 +24,20 @@ routes.put('/password/:userid', password.updatePassword('current', 'newpass'));
 //Users
 routes.get('/users/', users.getAllUsers);
 routes.get('/users/:userid', users.getUser);
-routes.post('/users/', login.isAuthorized, users.createUser);
-routes.put('/users/:userid', login.isAuthorized, users.updateUser);
-routes.delete('/users/:userid', login.isAuthorized, users.deleteUser);
+routes.post('/users/', login.isAuthorized('admin'), users.createUser);
+routes.put('/users/:userid', login.isAuthorized('admin'), users.updateUser);
+routes.delete('/users/:userid', login.isAuthorized('admin'), users.deleteUser);
 
 //Classes
 routes.get('/classes/', classes.getAllClasses);
 routes.get('/classes/:classid', classes.getClass);
-routes.post('/classes/', login.isAuthorized, classes.createClass);
-routes.put('/classes/:classid', login.isAuthorized, classes.updateClass);
-routes.delete('/classes/:classid', login.isAuthorized, classes.deleteClass);
+routes.post('/classes/', login.isAuthorized('admin', 'teacher'), classes.createClass);
+routes.put('/classes/:classid', login.isAuthorized('admin', 'teacher'), classes.updateClass);
+routes.delete('/classes/:classid', login.isAuthorized('admin', 'teacher'), classes.deleteClass);
 
 //Rosters
-routes.get('/rosters/:classid', login.isAuthorized, rosters.getClassUsers);
-routes.put('/rosters/:classid/userid', login.isAuthorized, rosters.addStudentToClass);
-routes.delete('/rosters/:classid/userid', login.isAuthorized, rosters.deleteStudentFromClass)
+routes.get('/rosters/:classid', login.isAuthorized('admin', 'teacher'), rosters.getClassUsers);
+routes.put('/rosters/:classid/userid', login.isAuthorized('admin', 'teacher'), rosters.addStudentToClass);
+routes.delete('/rosters/:classid/userid', login.isAuthorized('admin', 'teacher'), rosters.deleteStudentFromClass)
 
 routes.use(notFound);

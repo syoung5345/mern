@@ -72,17 +72,20 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
 }
 
 
-export async function isAuthorized(req: Request, res: Response, next: NextFunction) {
-    const payload: TokenPayload = res.locals.login || '';
-
-    const roles = ['admin', 'teacher'];
-
-    //if admin or teacher
-    if (roles.includes(payload.role)) {
-        next();
-    }
-    else {
-        res.status(403);
-        res.json({ message: `User ${payload.preferred_username} not authorized` });
+export function isAuthorized(...roles:string[]) {
+    return async function(req: Request, res: Response, next: NextFunction) {
+        const payload: TokenPayload = res.locals.login || '';
+    
+        // const roles = ['admin', 'teacher'];
+        console.log(roles);
+    
+        //if admin or teacher
+        if (roles.includes(payload.role)) {
+            next();
+        }
+        else {
+            res.status(403);
+            res.json({ message: `User ${payload.preferred_username} not authorized` });
+        }
     }
 }
