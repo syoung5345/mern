@@ -3,12 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import * as jwt from '../../utils/jwt';
 import * as config from '../../config';
 import { User } from "../../models/user";
-
-export interface TokenPayload {
-    sub: string;
-    preferred_username: string;
-    role: string;
-}
+import { TokenPayload } from '../../models/token';
 
 //authentication(is user logged in)
 export async function login(req: Request, res: Response) {
@@ -76,10 +71,6 @@ export function isAuthorized(...roles:string[]) {
     return async function(req: Request, res: Response, next: NextFunction) {
         const payload: TokenPayload = res.locals.login || '';
     
-        // const roles = ['admin', 'teacher'];
-        console.log(roles);
-    
-        //if admin or teacher
         if (roles.includes(payload.role)) {
             next();
         }

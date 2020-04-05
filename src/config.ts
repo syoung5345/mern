@@ -18,3 +18,9 @@ export const db = {
 }
 
 export const jwtSecret = 'it\'s a secret to everybody';
+
+export const ecryptionData = {
+    iterations: 10000,
+    length: 256,
+    hashAlg: 'sha512'
+}
