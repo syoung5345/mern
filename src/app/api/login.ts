@@ -1,40 +1,46 @@
 import { Request, Response, NextFunction } from "express";
+import util from 'util';
+import crypto from 'crypto';
 
 import * as jwt from '../../utils/jwt';
 import * as config from '../../config';
 import { User } from "../../models/user";
 import { TokenPayload } from '../../models/token';
 
-//authentication(is user logged in)
 export async function login(req: Request, res: Response) {
     const username = req.body.username;
     const password = req.body.password;
-    // const user = await User.findOne({username: username });
     const user = await databaseLookup(username);
 
-    //check password and username combo in database
-    if (user && user.username === username && user.password === password) {
-        const token = await jwt.signP<TokenPayload>(
-            { 
-                sub: user.id,
-                preferred_username: user.username,
-                role: user.role
-            },
-            config.jwtSecret,
-            { expiresIn: '1hr' }
-        );
-        res.json({ login: true, token: token });
-    }
-    else {
-        res.json({ login: false, message: 'invalid username / password'});
-    }
+    if (user) {
+        const salt = Buffer.from(user.salt, 'base64');
+        const pbkdf2P = util.promisify(crypto.pbkdf2);
+        const encryptedBuffer = await pbkdf2P(password, salt, config.ecryptionData.iterations, 
+            config.ecryptionData.length, config.ecryptionData.hashAlg);
 
-
-    //encript password
+        const dbBuffer = Buffer.from(user.password, 'base64');
+    
+        //check password and username combo with database
+        if (user.username === username && encryptedBuffer.equals(dbBuffer)) {
+            const token = await jwt.signP<TokenPayload>(
+                { 
+                    sub: user.id,
+                    preferred_username: user.username,
+                    role: user.role
+                },
+                config.jwtSecret,
+                { expiresIn: '1hr' }
+            );
+            res.json({ login: true, token: token });
+        }
+        else {
+            res.json({ login: false, message: 'invalid username / password'});
+        }
+    }
 }
 
 export async function databaseLookup(username: string) {
-    return await User.findOne({username: username });
+    return await User.findOne({ username: username });
 }
 
 //are they who they say they are

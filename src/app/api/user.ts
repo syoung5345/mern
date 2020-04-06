@@ -43,6 +43,10 @@ export async function getUser(req: Request, res: Response) {
     const payload: TokenPayload = res.locals.login || '';
     const user = res.locals.user;
 
+    console.log(user);
+
+    console.log(user.id, '  payload: ' + payload.sub);
+
     if (user.userid === payload.sub) {
         res.json(user);
     }
@@ -62,7 +66,7 @@ export async function createUser(req: Request, res: Response) {
         config.ecryptionData.iterations, config.ecryptionData.length, config.ecryptionData.hashAlg);
     const encryptedPassword = encryptedBuffer.toString('base64');
 
-    req.body.salt = salt;
+    req.body.salt = salt.toString('base64');
     req.body.password = encryptedPassword;
     const user = new User(req.body);
 
