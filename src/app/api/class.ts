@@ -3,11 +3,10 @@ import { Request, Response, NextFunction } from "express";
 import { Class } from '../../models/class';
 import { User } from '../../models/user';
 
-// These services should hide any students—you should not be able to 
-// read or write students using these services. 
-
 export async function getAllClasses(req: Request, res: Response) {
-    const classes = await Class.find().populate('User', 'id firstname lastname');
+    const classes = await Class.find({}, {students: 0}).populate('User');
+    
+    console.log(classes);
     res.json(classes); 
 }
 
@@ -31,15 +30,29 @@ export async function lookupClass(req: Request, res: Response, next: NextFunctio
 }
 
 export async function getClass(req: Request, res: Response) {
-    const c = await Class.find(res.locals.class).populate('User', 'id firstname lastname');
-    res.json(c);
+    const c = res.locals.class;
+    console.log(c.teacher);
+    console.log(c.teacher.username);
+    res.json({ 
+        subject: c.subject,
+        number: c.number,
+        title: c.title,
+        teacher: c.teacher
+    });
 }
 
 // the teacher field may be either a document id or a username. 
 export async function createClass(req: Request, res: Response) {
+    req.body.students = [];
     const c = new Class(req.body);
+
     await c.save();
-    res.json(c);
+    res.json({ 
+        subject: c.subject,
+        number: c.number,
+        title: c.title,
+        teacher: c.teacher
+    });
 }
 
 export async function updateClass(req: Request, res: Response) {
@@ -49,11 +62,17 @@ export async function updateClass(req: Request, res: Response) {
     c.number = req.body.number;
     c.title = req.body.title;
     // the teacher field may be either a document id or a username. 
+    //if id, use req.body, else find user's id
     c.teacher = req.body.teacher;
-    c.students = req.body.students;
+    c.students = c.students;
 
     await c.save();
-    res.json(c);
+    res.json({ 
+        subject: c.subject,
+        number: c.number,
+        title: c.title,
+        teacher: c.teacher
+    });
 }
 
 export async function deleteClass(req: Request, res: Response) {

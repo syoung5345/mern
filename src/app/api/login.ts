@@ -43,8 +43,7 @@ export async function databaseLookup(username: string) {
     return await User.findOne({ username: username });
 }
 
-//are they who they say they are
-//if not give 401 challenge
+//Are they who they say they are? If not give 401 challenge
 export async function authenticate(req: Request, res: Response, next: NextFunction) {
     let payload: TokenPayload | null = null;
 

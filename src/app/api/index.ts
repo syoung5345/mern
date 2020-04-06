@@ -37,7 +37,7 @@ routes.delete('/classes/:classid', login.isAuthorized('admin', 'teacher'), class
 
 //Rosters
 routes.get('/rosters/:classid', login.isAuthorized('admin', 'teacher'), rosters.getClassUsers);
-routes.put('/rosters/:classid/userid', login.isAuthorized('admin', 'teacher'), rosters.addStudentToClass);
-routes.delete('/rosters/:classid/userid', login.isAuthorized('admin', 'teacher'), rosters.deleteStudentFromClass)
+routes.put('/rosters/:classid/:userid', login.isAuthorized('admin', 'teacher'), rosters.addStudentToClass);
+routes.delete('/rosters/:classid/:userid', login.isAuthorized('admin', 'teacher'), rosters.deleteStudentFromClass)
 
 routes.use(notFound);

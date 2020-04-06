@@ -26,11 +26,6 @@ const ClassSchema = new mongoose.Schema({
     teacher: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        //how to make sure that user is teacher
-        // validate: {
-        //     validator: (id: mongoose.Schema.Types.ObjectId) => id == Math.floor(id),
-        //     message: '{VALUE} is not an integer'
-        // },
         required: true
     },
     students: {

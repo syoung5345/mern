@@ -9,7 +9,6 @@ import { TokenPayload } from '../../models/token';
 export async function getAllUsers(req: Request, res: Response) {
     const roles = ['admin', 'teacher'];
     const payload: TokenPayload = res.locals.login || '';
-    console.log(payload.role);
 
     if (roles.includes(payload.role)) {
         const users = await User.find();
@@ -42,10 +41,6 @@ export async function getUser(req: Request, res: Response) {
     const roles = ['admin', 'teacher'];
     const payload: TokenPayload = res.locals.login || '';
     const user = res.locals.user;
-
-    console.log(user);
-
-    console.log(user.id, '  payload: ' + payload.sub);
 
     if (user.userid === payload.sub) {
         res.json(user);
