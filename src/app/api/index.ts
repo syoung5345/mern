@@ -17,9 +17,10 @@ routes.param('classid', classes.lookupClass);
 
 //Login
 routes.post('/login', login.login);
-
 routes.all('/*', login.authenticate);
-routes.put('/password/:userid', password.updatePassword('current', 'newpass'));
+
+//Password
+routes.put('/password/:userid', password.updatePassword);
 
 //Users
 routes.get('/users/', users.getAllUsers);

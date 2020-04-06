@@ -28,12 +28,11 @@ const ClassSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    students: {
-        type: [mongoose.Schema.Types.ObjectId],
+    students: [{
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        //how to make sure user is student
         required: true
-    }
+    }]
 }, {
     toJSON: {
       getters: false,

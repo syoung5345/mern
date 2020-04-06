@@ -5,7 +5,7 @@ import { User } from '../../models/user';
 import { notFound } from './common';
 
 export async function getClassUsers(req: Request, res: Response) {
-    const c = await Class.findById(res.locals.class.id, {students: 1}).populate('User');
+    const c = await Class.findById(res.locals.class.id, {students: 1}).populate('students');
 
     if (c) {
         res.json(c.students);
@@ -23,9 +23,14 @@ export async function addStudentToClass(req: Request, res: Response) {
         res.json(c);
     }
     else {
-        c.students.push(user);
-        await c.save();
-        res.json(c);
+        if (user.role === 'student') {
+            c.students.push(user);
+            await c.save();
+            res.json(c);
+        }
+        else {
+            res.json({ message: `User ${user.username} is not a student`});
+        }
     }
 }
 

@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import expressHandlebars from 'express-handlebars';
 
 import * as config from '../config';
-import * as common from './common';
+import * as common from '../utils/common';
 import * as api from './api';
 
 // APPLICATION

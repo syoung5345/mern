@@ -71,7 +71,6 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
     }
 }
 
-
 export function isAuthorized(...roles:string[]) {
     return async function(req: Request, res: Response, next: NextFunction) {
         const payload: TokenPayload = res.locals.login || '';
